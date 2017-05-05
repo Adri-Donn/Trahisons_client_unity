@@ -13,7 +13,7 @@ using System.Threading;
 public class NetworkManager : MonoBehaviour {
 
     TcpClient clientSocket = new TcpClient();
-    NetworkStream serverStream;
+    //NetworkStream serverStream;
 
     public static List<Message> fileAttente = new List<Message>();
 
@@ -65,7 +65,6 @@ public class NetworkManager : MonoBehaviour {
     Button Action_SocialHelp_SR;
 
     public GameObject CarteVierge;
-    SpriteRenderer CarteVierge_SR;
 
     public GameObject Action_Challenge;
     Button Action_Challenge_SR;
@@ -128,7 +127,6 @@ public class NetworkManager : MonoBehaviour {
         Action_SocialHelp_SR.onClick.AddListener(ActionSocialHelp);
 
         CarteVierge = GameObject.Find("CarteVierge");
-        CarteVierge_SR = CarteVierge.GetComponent<SpriteRenderer>();
 
         Action_Challenge = GameObject.Find("Challenge");
         Action_Challenge_SR = Action_Challenge.GetComponent<Button>();
@@ -142,6 +140,9 @@ public class NetworkManager : MonoBehaviour {
     void Start()
     {
         Init();
+
+        //CanPlay(false);
+
         CanPlay(true);
         SetActualRoomName("Biere <3");
 
@@ -254,6 +255,7 @@ public class NetworkManager : MonoBehaviour {
                 {
                     case EnumTypeACTIONS.ROOM:
                         SetActualRoomName(message.a);
+                        LogIntoActionsLog("Bienvenue dans la room : " + message.a);
                         break;
 
                     case EnumTypeACTIONS.MONEY:
@@ -270,7 +272,7 @@ public class NetworkManager : MonoBehaviour {
                                 room[Convert.ToInt32(message.a)].Money = Convert.ToInt32(message.b);
                             }
                         }
-                        InsertIntoLogger("Le joueur " + room[Convert.ToInt32(message.a)].Name + " a " + message.b + " pièces.");
+                        LogIntoActionsLog("Le joueur " + room[Convert.ToInt32(message.a)].Name + " a " + message.b + " pièces.");
                         break;
 
                     case EnumTypeACTIONS.PLAYER:
@@ -294,37 +296,37 @@ public class NetworkManager : MonoBehaviour {
                             room.Add(new User());
                         }
                         // message.b = number of players
-                        InsertIntoLogger("Il y a maintenant " + message.a + " joueurs dans la salle.");
+                        LogIntoActionsLog("Il y a maintenant " + message.a + " joueurs dans la salle.");
                         break;
 
                     case EnumTypeACTIONS.NUMBER_AMBASSADOR:
                         Nombre_Ambassadeurs_GT.text = message.a;
-                        InsertIntoLogger("Il reste " + message.a + " ambassadeurs.");
+                        LogIntoActionsLog("Il reste " + message.a + " ambassadeurs.");
                         break;
 
                     case EnumTypeACTIONS.NUMBER_COMPTESS:
                         Nombre_Comptesses_GT.text = message.a;
-                        InsertIntoLogger("Il reste " + message.a + " comptesses.");
+                        LogIntoActionsLog("Il reste " + message.a + " comptesses.");
                         break;
 
                     case EnumTypeACTIONS.NUMBER_CAPITAIN:
                         Nombre_Capitaines_GT.text = message.a;
-                        InsertIntoLogger("Il reste " + message.a + " capitaines.");
+                        LogIntoActionsLog("Il reste " + message.a + " capitaines.");
                         break;
 
                     case EnumTypeACTIONS.NUMBER_DUCHESS:
                         Nombre_Duchesses_GT.text = message.a;
-                        InsertIntoLogger("Il reste " + message.a + " duchesses.");
+                        LogIntoActionsLog("Il reste " + message.a + " duchesses.");
                         break;
 
                     case EnumTypeACTIONS.NUMBER_INQUISITOR:
                         Nombre_Inquisiteurs_GT.text = message.a;
-                        InsertIntoLogger("Il reste " + message.a + " inquisitors.");
+                        LogIntoActionsLog("Il reste " + message.a + " inquisitors.");
                         break;
 
                     case EnumTypeACTIONS.NUMBER_KILLER:
                         Nombre_Tueurs_GT.text = message.a;
-                        InsertIntoLogger("Il reste " + message.a + " tueurs.");
+                        LogIntoActionsLog("Il reste " + message.a + " tueurs.");
                         break;
                 }
                 break;
@@ -335,7 +337,7 @@ public class NetworkManager : MonoBehaviour {
                     case EnumTypeACTIONS.NEWPLAYER:
                         // message.a = name of the player
 
-                        InsertIntoLogger("Nouveau joueur : " + message.a + ".");
+                        LogIntoActionsLog("Nouveau joueur : " + message.a + ".");
                         break;
 
                     case EnumTypeACTIONS.SOCIALHELP:
@@ -489,7 +491,7 @@ public class NetworkManager : MonoBehaviour {
 
     public void ResetGame()
     {
-        CarteVierge_SR.sprite = Resources.Load("CarteVierge", typeof(Sprite)) as Sprite;
+        // ici : mettre carte vierge
     }
 
     public void SetActualRoomName(string actualRoom)
@@ -507,25 +509,16 @@ public class NetworkManager : MonoBehaviour {
             WaitingRoom_I.enabled = false;
             ResetGame();
         }
-        InsertIntoLogger("Salle rejointe.");
+        LogIntoActionsLog("Salle rejointe.");
     }
-
-    public void InsertIntoLogger(string message)
-    {
-        // ici
-    }
-
+    
     // Update is called once per frame
     void Update () {
-        InsertIntoLogger("TEst");
-
         if(fileAttente.Count() > 0)
         {
             AnalyseMessage(fileAttente[0]);
             fileAttente.RemoveAt(0);
         }
-
-        
     }
 
 
@@ -549,60 +542,82 @@ public class NetworkManager : MonoBehaviour {
 
     public void ActionAmbassador()
     {
-        Debug.Log("Ambassador");
-        SetSprite(CarteVierge_SR, "Ambassadeur");
+        LogIntoActionsLog("Ambassador");
+        SetSpriteWhiteCard("Ambassadeur");
     }
 
     public void ActionCapitain()
     {
-        Debug.Log("Capitain");
-        SetSprite(CarteVierge_SR, "Capitaine");
+        LogIntoActionsLog("Capitain");
+        SetSpriteWhiteCard("Capitaine");
     }
 
     public void ActionComptess()
     {
-        Debug.Log("Comptess");
-        SetSprite(CarteVierge_SR, "Comptesse");
+        LogIntoActionsLog("Comptess");
+        SetSpriteWhiteCard("Comptesse");
     }
 
     public void ActionDuchess()
     {
-        Debug.Log("Duchess");
-        SetSprite(CarteVierge_SR, "Duchesse");
+        LogIntoActionsLog("Duchess");
+        SetSpriteWhiteCard("Duchesse");
     }
 
     public void ActionInquisitor()
     {
-        Debug.Log("Inquisitor");
-        SetSprite(CarteVierge_SR, "Inquisiteur");
+        LogIntoActionsLog("Inquisitor");
+        SetSpriteWhiteCard("Inquisiteur");
     }
 
     public void ActionKiller()
     {
-        Debug.Log("Killer");
-        SetSprite(CarteVierge_SR, "Tueur");
+        LogIntoActionsLog("Killer");
+        SetSpriteWhiteCard("Tueur");
     }
 
     public void ActionRevenue()
     {
-        Debug.Log("Revenue");
-        SetSprite(CarteVierge_SR, "Revenue");
+        LogIntoActionsLog("Revenue");
     }
 
     public void ActionSocialHelp()
     {
-        Debug.Log("SocialHelp");
-        SetSprite(CarteVierge_SR, "StrangerHelp 1");
+        LogIntoActionsLog("SocialHelp");
     }
 
     public void ActionChallenge()
     {
-        Debug.Log("Challenge!");
-        SetSprite(CarteVierge_SR, "poing");
+        LogIntoActionsLog("Challenge!");
+        SendMessageToServer(new Message(EnumTypeMSG.ACTION, EnumTypeACTIONS.CHALLENGE, null, null, null, null));
     }
 
-    public void SetSprite(SpriteRenderer spriteRenderer, string spriteName)
+    public void SetSpriteWhiteCard(string spriteName)
     {
-        spriteRenderer.sprite = Resources.LoadAll<Sprite>("").Where(a => a.name == spriteName).First();
+        Sprite newSprite = Resources.Load<Sprite>("Images/" + spriteName);
+        if (newSprite)
+        {
+            CarteVierge.GetComponent<Image>().sprite = newSprite;
+        }
+        else
+        {
+            Debug.LogError("Sprite not found", this);
+        }
+    }
+
+    public void LogIntoActionsLog(string message)
+    {
+        ScrollManager eventLogger = (ScrollManager)EventsLogs.GetComponent(typeof(ScrollManager));
+        eventLogger.CreateEventLog(message);
+    }
+
+    public void SetActualPlayer()
+    {
+        // Change the current player into the scrollView
+    }
+
+    public void ActualisePlayerInformations()
+    {
+        // Update the player informations into the scrollView
     }
 }
