@@ -483,6 +483,7 @@ public class NetworkManager : MonoBehaviour {
 
             case EnumTypeMSG.NEXTPLAYER:
                 // message.a == nextplayer
+                SetNextPlayer();
                 break;
         }
 
@@ -491,7 +492,8 @@ public class NetworkManager : MonoBehaviour {
 
     public void ResetGame()
     {
-        // ici : mettre carte vierge
+        SetSpriteWhiteCard("CarteVierge");
+
     }
 
     public void SetActualRoomName(string actualRoom)
@@ -611,9 +613,17 @@ public class NetworkManager : MonoBehaviour {
         eventLogger.CreateEventLog(message);
     }
 
-    public void SetActualPlayer()
+    public void SetNextPlayer()
     {
         // Change the current player into the scrollView
+        ScrollPlayersManager scrollPlayer = (ScrollPlayersManager)TourLogs.GetComponent(typeof(ScrollPlayersManager));
+        scrollPlayer.Next();
+    }
+
+    public void CreatePlayer(string name)
+    {
+        ScrollPlayersManager scrollPlayer = (ScrollPlayersManager)TourLogs.GetComponent(typeof(ScrollPlayersManager));
+        scrollPlayer.CreatePlayer(name);
     }
 
     public void ActualisePlayerInformations()

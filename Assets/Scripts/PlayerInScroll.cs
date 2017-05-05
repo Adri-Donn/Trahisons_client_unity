@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerInScroll : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    public Text PlayerName;
+    public Text PlayerMoney;
+    public Text PlayerCard;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	

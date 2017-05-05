@@ -32,14 +32,14 @@ public class ScrollPlayersManager : MonoBehaviour {
     }
     */
 
-    public void CreateEventLog(string message)
+    public void CreatePlayer(string PlayerName)
     {
-        GameObject item = Instantiate(m_itemPrefab, Vector3.zero, Quaternion.identity) as GameObject;
-        item.transform.SetParent(m_listContent, false);
-        item.GetComponent<Item>().m_text.text = message;
+        GameObject player = Instantiate(m_itemPrefab, Vector3.zero, Quaternion.identity) as GameObject;
+        player.transform.SetParent(m_listContent, false);
 
-        Transform itemToMove = m_listContent.GetChild(m_listContent.childCount - 1);
-        itemToMove.SetAsFirstSibling();
+        player.GetComponent<PlayerInScroll>().PlayerName.text = PlayerName;
+        player.GetComponent<PlayerInScroll>().PlayerMoney.text = "2";
+        player.GetComponent<PlayerInScroll>().PlayerCard.text = "2";
     }
 
     public void Next()
