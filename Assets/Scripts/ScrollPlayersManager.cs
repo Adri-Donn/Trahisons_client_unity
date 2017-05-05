@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScrollManager : MonoBehaviour {
+public class ScrollPlayersManager : MonoBehaviour {
+
     public GameObject m_itemPrefab;
     public int m_lengthOfList;
 
     public Transform m_listContent;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         //CreateList();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     /*
     public void CreateList()
@@ -44,5 +47,4 @@ public class ScrollManager : MonoBehaviour {
         Transform firstInstance = m_listContent.GetChild(0);
         firstInstance.SetAsLastSibling();
     }
-
 }

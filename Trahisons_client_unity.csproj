@@ -94,7 +94,9 @@
     <Compile Include="Assets\Scripts\Card.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\NetworkManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerInScroll.cs" />
     <Compile Include="Assets\Scripts\ScrollManager.cs" />
+    <Compile Include="Assets\Scripts\ScrollPlayersManager.cs" />
     <Compile Include="Assets\Scripts\User.cs" />
     <Compile Include="Assets\Scripts\message.cs" />
   </ItemGroup>
